@@ -10,19 +10,37 @@
 <li>3</li></ul>
 <script>
 // #1 語法糖與新增語法
-// 語法糖：不會影響運作，邏輯與當前 JS 一致
-const obj = {
-  myName: '物件',
-  fn: function() {
-    return this.myName;
-  }
-}
+// 語法糖：不會影響運作，邏輯與當前 JS 一致  -> 縮寫
 
-console.log(obj.fn());
+// ==========
+// 1. 物件裡的function 縮寫 
+// ＊六角原始程式碼＊
+// const obj = {
+//   myName: '物件',
+//   fn: function() {
+//     return this.myName;
+//   }
+// }
 
-// =====
+// console.log(obj.fn());
+
+// ＊自己的練習＊
+// const obj = {
+//   myName: '物件',
+//   fn() {
+//     return this.myName;
+//   }
+// }
+
+// console.log(obj.fn());
+
+
+// ==========
 // #2 物件字面值 Object literals
+
 // #2-1 物件內的函式
+
+// ＊六角原始程式碼＊
 // const obj3 = {
 //   myName: '物件',
 //   fn: function() { // 請改為縮寫
@@ -32,22 +50,52 @@ console.log(obj.fn());
 
 // console.log(obj3.fn());
 
-// #2-2 物件內的變數
+
+// ＊自己的練習＊
+// const obj3 = {
+//   myName: '物件',
+//   fn() { // 縮寫
+//     return this.myName;
+//   }
+// }
+
+// console.log(obj3.fn());
+
+
+//#2-2 物件內的變數
 // const person = {
 //   name: '小明'
 // };
 
+// 定義一個物件people，把person物件帶入person屬性中。
+// const people = {
+//   person: person,
+// }
+
+// 物件中如果屬性和值同名稱時，可以直接省去屬性。
+// const people = {
+//   person,
+// }
+// console.log(people.person);
 
 
-
+// ==========
 // #3 展開
 // #3-1 不同陣列合併
-const groupA = ['小明', '杰倫', '阿姨'];
-const groupB = ['老媽', '老爸'];
-const groupAll = groupA.concat(groupB);
+// const groupA = ['小明', '杰倫', '阿姨'];
+// const groupB = ['老媽', '老爸'];
+// 傳統串接陣列： .concat()
+//const groupAll = groupA.concat(groupB);
+
+// 可直接使用展開語法 -> ... (把原本陣列展開成單獨一個一個值。不展開直接放入新陣列會等於新陣列中還包著陣列，而不是單獨的值。)
+// const groupAll = [...groupA, ...groupB];
+
+// console.log(groupAll);
+
 
 // #3-2 物件擴展
 // 新增一個物件包含新方法，同時加入原有的方法
+//＊六角原始碼＊
 const methods = {
   fn1() {
     console.log(1);
@@ -57,17 +105,41 @@ const methods = {
   },
 }
 
+// ＊自己的練習＊
+// const newMethods = {
+//   fn(){
+//     console.log(2);
+//   },
+//   ...methods //展開methods裡的function，讓fn1、fn2變成獨立的function，可被直接放入物件中。
+// }
+
+//可看到console.log顯示三個function，不會看到function裡寫的數字，除非是寫console.log(newMethods.fn())才會顯示function欲列出的數字。
+// console.log(newMethods);
+
+
 
 // #3-3 轉成純陣列
-const doms = document.querySelectorAll('li');
+
+const doms = document.querySelectorAll('li'); //搜尋頁面中的所有<li> //querySelectorAll取出來的值會變為類陣列NodeList（無法使用陣列的methods）
 console.log(doms); // 請轉為純陣列
+const newDoms = [...doms]; //用展開的方式存入陣列
+console.log(newDoms);
 
 
-// #4 預設值
-// function sum(a, b) { // 請加入預設值避免錯誤
+// #4 預設值 - 請加入預設值避免錯誤
+// 傳統方式：加入b的if判斷，避免沒有b值使得function無法運作。
+// function sum(a, b) { 
+//   if(!b){ 
+//     b = 2;
+//   } 
 //   return a + b;
 // }
-// console.log(sum(1));
+
+// ES6新方式：直接在function的參數中定義好預設值，使用function時有給值會覆蓋預設值，沒給值就直接用預設值。
+function sum(a, b = 2) { 
+  return a + b;
+}
+console.log(sum(1)); //沒給b值，所以會直接用function預設好的b=2帶入。
 
 
 </script>
