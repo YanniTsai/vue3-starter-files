@@ -4,12 +4,17 @@
 <!-- 🔥🔥練習開始🔥🔥 -->
 <script>
 // #1 一個函式中包含多少參數
-var a = '全域'
-function fn(params) {
-  console.log(params, this, window, arguments);
-  debugger;
-}
+// var a = '全域'
+// function fn(params) {
+//   console.log(params, this, window, arguments); // this 目前指向window。
+//                                                 // window 本身存在瀏覽器的全域變數。
+//                                                 // arguments 儲存傳入的所有參數，類陣列。不管fn()中定義傳入幾個參數，所有傳入的參數都會存在argument中。e.g. fn(a){} / fn(1,2,3) -> 只有1會拿去作用，但1,2,3都會存入argument。
+//   debugger; //除錯程式
+// }
+// fn();
+// fn(1, 2, 3);
 
+// =======
 // #2 this 的指向為何
 // var obj = {
 //   name: '小明',
@@ -19,13 +24,16 @@ function fn(params) {
 //   }
 // }
 
+// obj.fn(1, 2, 3);
+
+// =======
 // #3 注意：this 的指向相當複雜，大部分情境只需要了解其中一種即可(95%)
 // 傳統函式中的 this 只與調用方式有關
-// var someone = '全域';
-// function callSomeone() {
-//   console.log(this.someone);
-// }
-// callSomeone();
+var someone = '全域';
+function callSomeone() {
+  console.log(this.someone);
+}
+callSomeone();
 
 // #4 各種運用變化
 // var obj = {
@@ -34,41 +42,43 @@ function fn(params) {
 //     console.log(this.someone);
 //   }
 // }
-// obj.callSomeone();
+// obj.callSomeone(); // 如果呼叫函式前有物件，那this就會指向物件；如果沒有物件，那就會指向全域。這裡的this就會指向obj。
 
 // var obj2 = {
 //   someone: '物件2',
-//   callSomeone
+//   callSomeone // 直接引入第32行的callSomeone。
 // }
-// obj2.callSomeone();
+// obj2.callSomeone(); // this會指向obj2。
+
 
 // var wrapObj = {
 //   someone: '外層物件',
-//   callSomeone,
+//   callSomeone, // 直接引入第32行的callSomeone。
 //   innerObj: {
 //     someone: '內層物件',
 //     callSomeone,
 //   }
 // }
-// wrapObj.innerObj.callSomeone();
+// wrapObj.callSomeone(); // 指向“外層物件”。
+// wrapObj.innerObj.callSomeone(); // 指向“內層物件”。
 
-// var obj3 = {
-//   someone: '物件 3',
-//   fn() {
-//     callSomeone(); // 通常平常不會這樣去取用 this
-//   }
-// }
-// obj3.fn();
+var obj3 = {
+  someone: '物件 3',
+  fn() {
+    callSomeone(); // 通常平常不會這樣去取用 this
+  }
+}
+//obj3.fn(); //因為obj3取的function是fn()不是callSomeone()，callSomeone()前面沒有被任何物件取用，所以callSome裡的this是指向全域。
 
 // var obj4 = {
 //   someone: '物件 4',
 //   fn() {
-//     setTimeout(function () {
-//       console.log(this.someone);
+//     setTimeout(function () {  // setTimeout是callback function
+//       console.log(this.someone); // callback function中的this大多指向全域。
 //     });
 //   }
 // }
-// obj4.fn();
+// obj4.fn(); // 指向全域。
 
 </script>
 <!-- 🙇🙇練習結束🙇🙇 -->
