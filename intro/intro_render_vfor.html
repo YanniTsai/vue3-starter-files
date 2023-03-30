@@ -14,7 +14,23 @@
       </tr>
     </thead>
     <tbody>
-      <tr></tr>
+      <!-- v-for="" 把多筆資料渲染出來；item是自定義名稱（可更改），products是資料集內的物件名稱-->
+      <!-- :key="" 補上唯一值 -->
+      <!-- v-bind: 把資料綁定到html上。後面加上判斷條件：若要加上判斷，會將class改為物件。物件前方為class name、後面是判斷方法。class name可補上單引號，確保其為物件正確格式。 -->
+      <tr v-for="item in products" :key="item.id" v-bind:class="{ 'table-success' : item.onStock }">
+        <td>{{ item.name }}</td>
+        <td>
+          <img v-bind:src="item.imageUrl" alt="">
+        </td>
+        <td>
+          <!-- 因為透過v-model將input(checkbox)和data(){}中的products綁定，所以在頁面中勾選checkbox時，product中的onStock也會同步更新，因此後面的true/false才會更動。 -->
+          <input type="checkbox" v-model="item.onStock">
+          {{ item.onStock }}
+        </td>
+        <td>
+          <button type="button" class="btn btn-outline-primary">編輯</button>
+        </td>
+      </tr>
     </tbody>
   </table>
   <form>

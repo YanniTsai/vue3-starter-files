@@ -5,11 +5,18 @@
 </div>
 <!-- 🔥🔥練習開始🔥🔥 -->
 <script>
-// #1 物件是以傳參考的形式賦值
+
+//#1 物件是以傳參考的形式賦值
 // const person = {
 //   name: '小明',
 //   obj: {}
 // }
+
+// const person2 = person; // person2是直接指向person的記憶體空間(e.g. 0x01)，所以person和person2其實是指向同個物件。
+// console.log(person === person2); //true
+
+// person2.name = "小美"; //直接修改0x01的資料，因person也是指向0x01，所以person.name也會變成“小美”
+// console.log(person.name, person2.name); // 小美, 小美
 
 
 // #2 陷阱
@@ -21,7 +28,7 @@
 //   name: '小明',
 //   obj: {}
 // }
-// fn(person);
+// fn(person); //person中的name變成‘杰倫’
 // // ...
 
 // console.log(person);
@@ -30,9 +37,14 @@
 
 // #3 解決方案
 // #3-1 淺層拷貝
-// const person = {
+// const person = { //person的記憶體空間0x01
 //   name: '小明',
-//   obj: {}
+//   obj: {} //obj有自己的記憶體空間，e.g. 0x02
+// }
+
+// const person2 = Object.assign({}, person); //再創一個記憶體空間放person3，但因為是淺層拷貝，所以obj一樣是指向0x02，改變person2的obj，person的obj也會被改變。
+// const person3 = {
+//   ...person, // 把person展開放入person3物件，同屬淺層拷貝。
 // }
 
 
@@ -41,6 +53,11 @@
 //   name: '小明',
 //   obj: {}
 // }
+
+// const person2 = JSON.parse(JSON.stringify(person)); //先把物件轉成純文字，再把純文字轉為物件。JSON.stringify()轉字串；JSON.parse()轉物件。
+// console.log(person2); // 已是完全獨立的物件了，改變person2的內容person的內容不會受影響。
+// console.log(person2 === person); //false
+
 
 </script>
 <!-- 🙇🙇練習結束🙇🙇 -->

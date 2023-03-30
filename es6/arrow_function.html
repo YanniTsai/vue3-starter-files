@@ -3,36 +3,70 @@
 <!-- 章節標題 --><div class="mb-4"><h1 class="mt-0 text-muted">箭頭函式的 this 指向差異</h1><small>檔名：<code>arrow_function.html</code></small></div>
 <!-- 🔥🔥練習開始🔥🔥 -->
 <script>
+
 // #1 箭頭函式的縮寫
 const arr = [1, 2, 3, 4, 5];
 
+// 取單數，直接在console印出（傳統寫法）
+// const filterArr = arr.filter(function(item){
+//   console.log(item % 2);
+// })
+
+// 取單數，回傳真值。
+// const filterArr = arr.filter(function(item){
+//    return item % 2;
+// })
+// console.log(filterArr); // console -> [1, 3, 5]
+
+// 第一次縮寫
+// const filterArr = arr.filter((item) => {
+//    return item % 2;
+// })
+// console.log(filterArr);
+
+// 第二次縮寫
 // const filterArr = arr.filter(item => item % 2); // 取有餘數的值（單數）
 // console.log(filterArr);
 
 
+//==================
 // #2 This 綁定的差異
 // #2-1 活用觀念，將內層的改為箭頭
 // var name = '全域'
 // const person = {
 //   name: '小明',
 //   callName: function () { 
-//     console.log('1', this.name); // 1 小明
+//     console.log('1', this.name); // 1 小明 -> 因為是person來呼叫callName()，所以這裡的this會指向person，顯示“小明”。
 //     setTimeout(function () {
-//       console.log('2', this.name); // 2
-//       console.log('3', this); // 3
+//       console.log('2', this.name); // 2 全域 -> 這是在callName()裡的function，執行時前面沒有透過其他參數來引用，所以this會指向全域。
+//       console.log('3', this); // 3 Window -> 指向全域。
 //     }, 10);
 //   },
 // }
 // person.callName();
 
+// 箭頭函式沒有自己的this，箭頭函式的this會和外層的function指向同個物件。
+var name = '全域'
+const person = {
+  name: '小明',
+  callName: function () { 
+    console.log('1', this.name); // 1 小明 -> 因為是person來呼叫callName()，所以這裡的this會指向person，顯示“小明”。
+    setTimeout(() => {
+      console.log('2', this.name); // 2 小明 -> 箭頭函式沒有自己的this，指向的物件會和外層function相同，所以this會指向person，顯示“小明”。
+      console.log('3', this); // 3 person -> 箭頭函式的指向和外層function相同。
+    }, 10);
+  },
+}
+person.callName();
 
+//==================
 // #3 陷阱
 // #3-1
 // var name = '全域'
 // const person = {
 //   name: '小明',
 //   callName: () => { 
-//     console.log(this.name); // 請尋找箭頭所在的作用域為何？
+//     console.log(this.name); // 雖然前面被person調用，但箭頭函式外層沒有function，所以會直接指向全域。
 //   },
 // }
 // person.callName();
@@ -43,24 +77,36 @@ const arr = [1, 2, 3, 4, 5];
 //   name: '小明',
 //   callMe() {
 //     const callName = () => { 
-//       console.log(this.name); // 請尋找箭頭所在的作用域為何？
+//       console.log(this.name); // callName()外層的callMe()是被person調用的，所以箭頭函式中的this會指向person，顯示“小明”。
 //     };
 //     callName();
 //   }
 // }
 // person.callMe();
 
-// #4 實戰手法
+//==================
+// #4 實戰手法 - 避免this的指向不如預期
 // var someone = '全域';
 // function callSomeone() {
 //   console.log(this.someone);
 // }
 
+// 1. 先指向其他變數
 // var obj4 = {
 //   someone: '物件 4',
 //   fn() {
 //     // const vm = this; // vm 在 Vue 中意指 ViewModel
 //     setTimeout(function () {
+//       console.log(this.someone);
+//     });
+//   }
+// }
+
+// 2. 使用箭頭函式，確保箭頭函式內的this指向和外層function一樣。
+// var obj4 = {
+//   someone: '物件 4',
+//   fn() {
+//     setTimeout(() => {
 //       console.log(this.someone);
 //     });
 //   }

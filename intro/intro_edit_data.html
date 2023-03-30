@@ -24,7 +24,9 @@
           <input type="checkbox" v-model="item.onStock">
         </td>
         <td>
+          <!-- editItem(item)中的item是第17行v-for帶進來的參數 -->
           <button type="button" class="btn btn-outline-primary"
+          v-on:click="editItem(item)" 
           >修改</button>
         </td>
       </tr>
@@ -76,11 +78,29 @@ const App = {
     }
   },
   methods: {
+    // item1是自定義的名稱，v.s.第29行的item。
+    editItem(item1){
+      // 因為this.temp = item1屬於傳參考的形式，所以在35~55行的表單中若修改到temp資料時，item1的內容也會連動（17~32行中的item會同時更動到，因為29行item在methods中連結到item1）
+      // this.temp = item1;
+      // 為避免上述同時更動的情形發生，改使用「拷貝」方式。
+      this.temp = { ...item1 };
+    },
     confirmEdit() {
-      this.temp.id = new Date().getTime();
-      this.temp.onStock = false;
-      this.products.push(this.temp);
-      this.temp = {};
+      // 新增資料
+      // 因為要新增的資料不會有id，已經存在的資料有id，所以透過判斷id存在有無來決定是不是新增。
+      if(!this.temp.id){
+        this.temp.id = new Date().getTime();
+        this.temp.onStock = false;
+        this.products.push(this.temp);
+        this.temp = {};
+      }else{
+        this.products.forEach((item, i) => {
+          if(item.id === this.temp.id){
+            this.products[i] = this.temp;
+          }
+        });
+        this.temp = {};
+      }
     }
   },
   created() {
