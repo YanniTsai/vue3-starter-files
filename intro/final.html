@@ -4,7 +4,13 @@
 <!-- 🔥🔥練習開始🔥🔥 -->
 
 <div id="app">
-  
+  <div class="text-end">
+    <!-- 點擊button時，作用addItem()，將isNew改為true狀態，觸發line 40的表單出現。 -->
+    <button class="btn btn-primary" type="button" 
+    v-on:click="addItem">
+      新增
+    </button>
+  </div>
   <table class="table">
     <thead>
       <tr>
@@ -31,7 +37,10 @@
       </tr>
     </tbody>
   </table>
-  <form>
+
+  <!-- 如果isNew為true時，就出現表單；isNew為false時，隱藏表單。 -->
+  <!-- 因為修改資料時，該筆資料已會有id，因此判斷若temp.id存在，則表單亦會出現。 -->
+  <form v-if="isNew || temp.id">
     <div class="mb-3">
       <label for="productName" class="form-label">產品名稱</label>
       <input type="text" id="productName"
@@ -70,9 +79,16 @@ const App = {
     return {
       products: [],
       temp: {},
+      // 狀態，決定是否為新增產品。
+      isNew: false,
     }
   },
   methods: {
+    addItem(){
+      this.isNew = true;
+      // 確保表單內容是清空的。（表單內容存在temp）
+      this.temp = {};
+    },
     editItem(item) {
       this.temp = { ...item }
     },
@@ -88,6 +104,7 @@ const App = {
           }
         });
       }
+      this.isNew = false;
       this.temp = {};
     }
   },

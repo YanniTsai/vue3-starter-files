@@ -94,11 +94,13 @@ const App = {
         this.products.push(this.temp);
         this.temp = {};
       }else{
+        // 比對id位置與原始是否相同，相同才進行資料修改。
         this.products.forEach((item, i) => {
           if(item.id === this.temp.id){
             this.products[i] = this.temp;
           }
         });
+        // 清空物件
         this.temp = {};
       }
     }

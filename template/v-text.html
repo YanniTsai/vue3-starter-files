@@ -4,34 +4,58 @@
 <!-- 🔥🔥練習開始🔥🔥 -->
 <div id="app">
   <h3>字串 v-text 與 <code v-pre>{{}}</code> (Mustache)</h3>
-  <p>在 吃早餐</p>
-  <p><span></span>在<span ></span>吃早餐</p>
+  <!-- 以html渲染文字 -->
+  <p>1. html渲染：小明在早餐店吃早餐</p>
+  <!-- 透過vue將data渲染出來 {{}} -->
+  <p>2. vue的雙大括號：{{ name }} 在 {{ position }} 吃早餐</p>
+  <!-- 透過vue將data渲染出來 v-text -->
+  <!-- 用v-text的好處是可以直接編輯標籤做css樣式設定 -->
+  <p>3. vue的v-text：<span v-text="name"></span>在<span v-text="position"></span>吃早餐</p>
+  <p>&emsp;→ 用v-text的好處是可以直接編輯標籤做css樣式設定</p>
   <input type="text" v-model="name">
 
   <hr>
+  <!-- 若data中的變數含有html標籤，v-html可將html標籤特性直接渲染於畫面中 -->
   <h3>原始字串 v-html</h3>
   {{ rawHtml }}
+  <div v-html="rawHtml"></div>
   <p><a href="https://v3.cn.vuejs.org/api/directives.html#v-html">注意事項</a></p>
 
   <hr>
+  <!-- v-once資料單次渲染，雙向綁定的資料就算更改，被指定單次渲染的部分也不會跟著更動。 -->
   <h3>單次綁定 v-once</h3>
-  <p>{{ name }}在{{ position }}吃早餐</p>
+  <p v-once>{{ name }}在{{ position }}吃早餐</p>
   <input type="text" v-model="name">
 
   <hr>
+  <!-- 可以在{{}}中直接插入js的表達式 -->
   <h3>進階技巧：表達式</h3>
-  <p>{{ }}</p>
-  <p>{{ }}</p>
-  <p>{{ }}</p>
-  <p>{{ }}</p>
+  <p>1. 樣板字面值：在雙大括號中加入``(雙反引號)，並在雙反引號中加入文字，即可直接渲染該文字。同時也可以透過js引用變數的方式${}，在文字中混用變數</p>
+  <p>→ {{ `${name}在${position}吃早餐` }}</p>
+  <p style="color:grey" v-pre >程式碼：{{ `${name}在${position}吃早餐` }}</p>
+  
+  
+  <p>2. 在雙大括號中直接使用js的方法</p>
+  <p>反轉文字 → {{ text.split('').reverse().join('') }}</p>
+  <p style="color:grey" v-pre >程式碼：{{ text.split('').reverse().join('') }}</p>
+  
+  <p>3. 綁定methods：在雙大括號中直接使用methods的方法</p>
+  <p>→ {{ say('杰倫') }}</p>
+  <p style="color:grey" v-pre >程式碼：{{ say('杰倫') }}</p>
+  
+  <p>4. 直接在雙大括號中寫入js的運算</p>
+  <p>→ {{ 1+1 }}</p>
+  <p style="color:grey" v-pre >程式碼：{{ 1+1 }}</p>
 
   <hr>
+  <!-- 直接將data的變數呈現於畫面上，可省去切換至console查看的時間。 -->
   <h3>進階技巧：顯示資料狀態</h3>
-  <p></p>
+  <p>顯示陣列內容：{{products}}</p>
 
   <hr>
-  <h3>顯示 <span v-pre>{{ }}</span></h3>
-  <p>這段文字不會被轉譯：{{ name }}在{{ position }}吃早餐</p>
+  <!-- v-pre：避免文字被轉譯，可直接呈現整句程式碼。 -->
+  <h3>v-pre：顯示 <span v-pre>{{ }}</span></h3>
+  <p v-pre>這段文字不會被轉譯：{{ name }}在{{ position }}吃早餐</p>
 </div>
 
 <script>
