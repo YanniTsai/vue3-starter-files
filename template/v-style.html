@@ -6,18 +6,27 @@
 <div id="app">
   <h2>切換 Class</h2>
   <h3>物件寫法</h3>
-  <div class="box"></div>
+  <!-- 綁定class - 使用物件形式：物件key值對應className、物件的值則是判斷式(true/false) 。-->
+  <!-- 物件不能帶入"-"，若有"-"的名稱，須用引號將它包住轉為字串。 -->
+  <!-- 若有多個樣式需要呈現，則在中間使用,隔開。 -->
+  <!-- bg-danger是bootstrap的語法：紅色背景 -->
+  <div class="box" :class="{rotate : isTransform , 'bg-danger' : boxColor}"></div>
   <hr>
   <button class="btn btn-outline-primary" v-on:click="change('isTransform')">選轉物件</button>
   <button class="btn btn-outline-primary ms-1" v-on:click="change('boxColor')">切換色彩</button>
 
   <hr class="mt-4">
   <h3>物件寫法 2</h5>
-  <div class="box"></div>
+  <!-- 可直接在data將class寫成物件再綁定 -->
+  <div class="box" :class="ObjectClass"></div>
 
   <hr>
   <h4>陣列寫法</h4>
-  <button class="btn">請操作本元件</button>
+  <!-- 在 :class=" " 中直接加入 [ ]寫入className -->
+  <button class="btn" :class="['btn-primary', 'disabled']">請操作本元件</button>
+  <!-- 也可以直接帶入Array -->
+  <button class="btn" :class="arrayClass">請操作本元件</button>
+  <!-- 透過addClass這個方法將btn-primary, active加入arrayClass中 -->
   <button type="button"
     class="btn btn-outline-primary"
     v-on:click="addClass(['btn-primary', 'active'])">為陣列加入 Class</button>
@@ -25,9 +34,13 @@
   <hr>
   <h2>行內樣式</h2>
   <h4>綁定行內樣式</h4>
-  <div class="box"></div>
-  <div class="box"></div>
-  <div class="box"></div>
+  <!-- 使用物件形式：key為style的屬性，值為style相對應的值，要寫為字串 -->
+  <!-- key使用小駝峰形式（把中間的 - 刪除，後面首字改為大寫） -->
+  <div class="box"  :style="{backgroundColor: 'red'}"></div>
+  <!-- 也可以直接帶入物件 -->
+  <div class="box" :style="styleObject"></div>
+  <!-- 寫成陣列形式，內是多筆物件 → [{},{}...]-->
+  <div class="box" :style="[styleObject, styleObject2]"></div>
 </div>
 
 <script>
@@ -36,6 +49,10 @@ const App = {
     return {
       isTransform: true,
       boxColor: false,
+      ObjectClass:{
+        rotate : true ,
+        'bg-danger' : true
+      },
 
       // Array 操作
       arrayClass: [''],
