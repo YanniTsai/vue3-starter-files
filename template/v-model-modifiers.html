@@ -7,13 +7,16 @@
   <h3>修飾符</h3>
   <h4 class="mt-3">延遲 Lazy</h4>
   {{ lazyMsg }}
-  <input type="text" class="form-control" v-model="lazyMsg">
+  <!-- 輸入文字時，文字不會直接同步到data，而是在輸入完成後，點擊輸入框的框線or按enter，才會綁定到data中。可用於html的change事件上。 -->
+  <input type="text" class="form-control" v-model.lazy="lazyMsg">
   <h4 class="mt-3">純數值 Number</h4>
-  {{ numberMsg }}{{ typeof numberMsg }}
-  <input type="text" class="form-control" v-model="numberMsg">
+  {{ numberMsg }} / {{ typeof numberMsg }}
+  <!-- 需將<input>的type改為number，確保輸入的是數字，否則就算加上.number，輸入的是文字也會是string型態。 -->
+  <input type="number" class="form-control" v-model.number="numberMsg">
   <h4 class="mt-3">修剪 Trim</h4>
   這是一段{{ trimMsg }}緊黏的文字
-  <input type="text" class="form-control" v-model="trimMsg">
+  <!-- 可將輸入的內容的前後空白刪除 -->
+  <input type="text" class="form-control" v-model.trim="trimMsg">
 
 </div>
 
