@@ -8,8 +8,8 @@
   <a href="https://www.w3schools.com/jsref/dom_obj_event.asp">參考：DOM 事件</a>
   <div class="box" :class="{ rotate: isTransform }"></div>
   <hr>
-  <!-- 當沒有參數時，預設第一個則是 dom 事件參數 -->
-  <button class="btn btn-outline-primary" @click="changeClass">選轉物件</button>
+  <!-- 若有函式定義須帶入參數，但無參數時，預設會直接帶入 dom 事件參數 -->
+  <button class="btn btn-outline-primary" @click="changeClass">旋轉物件</button>
   <button class="btn btn-outline-primary" @keyup.enter="changeClass">按鈕事件</button>
   <!-- 當如果有參數時，則可以使用 $event -->
   <button class="btn btn-outline-primary" @click="changeClassWithEvent('這段是自訂參數', $event)">自訂參數</button>
@@ -41,15 +41,17 @@ const App = {
       console.log(parameter, e);
     },
     inputEvent(e) {
-      console.log(e);
+      // 需取得input的值，但無綁定v-model的變數。在DOM中找到target對應到input元素，target中的value對應的input輸入框的值，因此用.target.value取得該值。
+      console.log(e.target.value);
     },
     keyboardEvent(e) {
+      // keyCode 為 DOM 中的元素，每個按鍵都有對應的數字。
       console.dir(e.keyCode)
-      // if (e.keyCode === 13) {
-      //   alert('你按下了 Enter')
-      // } else if (e.keyCode === 32) {
-      //   alert('你按下了 空白鍵')
-      // }
+      if (e.keyCode === 13) {
+        alert('你按下了 Enter')
+      } else if (e.keyCode === 32) {
+        alert('你按下了 空白鍵')
+      }
     }
   }
 };
