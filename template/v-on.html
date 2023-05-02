@@ -6,33 +6,41 @@
   <h3>觸發事件 與 縮寫*</h3>
   <div class="box" :class="{ rotate: isTransform }"></div>
   <hr>
-  <button class="btn btn-outline-primary">選轉物件</button>
+  <button class="btn btn-outline-primary" v-on:click="changeClass">選轉物件</button>
+  <!-- v-on 縮寫 @ -->
+  <!-- <button class="btn btn-outline-primary" @click="changeClass">選轉物件</button> -->
   <br>
   <h3>帶入參數*</h3>
   <div class="box" :class="{ rotate: isTransform }"></div>
   <hr>
-  <button class="btn btn-outline-primary">選轉物件</button>
+  <button class="btn btn-outline-primary" v-on:click="change('isTransform')">選轉物件</button>
   
   <hr>
   <h3>原生 DOM 事件*</h3>
   <!-- https://developer.mozilla.org/en-US/docs/Web/Events -->
   <h4>input change 事件</h4>
-  <input type="text">
+  <!-- 輸入框輸入完畢後，點擊框框以外才會觸發change事件。 -->
+  <input type="text" @change="onChange('change事件')">
   <br><br>
   <h4>form submit 事件</h4>
-  <form>
+  <!-- 把submit寫在form上：只要form有submit動作(e.g. 在輸入框按enter、點擊button)，就會觸發該事件；把submit寫在button上：要點擊button才能觸發該事件。 -->
+  <!-- html原生表單都會有submit事件，在@submit加上.prevent可以把原生html事件移除。 -->
+  <form @submit.prevent="submitForm">
     <input type="text" v-model="name">
     <button>送出表單</button>
   </form>
   <hr>
   <h3>動態事件 []</h3>
-  <input type="text">
+  <input type="text" @[event]="dynamicEvent">
   <input type="text" v-model="event">
 
   <hr>
   <h3>動態物件方法 {}</h3>
   <!-- 此方法無法傳入參數 -->
-  <button class="box">
+  <button class="box" @="{
+    mousedown: down,
+    mouseup: up
+  }">
   </button>
   <hr>
   <h3>作為運算*</h3>
@@ -55,6 +63,7 @@ const App = {
       this.isTransform = !this.isTransform;
     },
     change(key) {
+      // this[key] 和 this.key 意思一樣
       this[key] = !this[key];
     },
     onChange(evt) {
