@@ -8,18 +8,11 @@
     <div class="row gx-3 bg-light py-3">
       <div class="col-md-4">
         <div class="list-group">
-          <a href="#" class="list-group-item list-group-item-action">
-            <h6 class="card-title mb-1">珍珠鮮奶茶</h6>
+          <a href="#" class="list-group-item list-group-item-action" v-for="item in products">
+            <h6 class="card-title mb-1">{{ item.name }}</h6>
             <div class="d-flex align-items-center justify-content-between">
-              <p class="mb-0"><small>Pearl Milk Tea</small></p>
-              <p class="mb-0"><small>NT$ 60</small></p>
-            </div>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action active">
-            <h6 class="card-title mb-1">鮮奶茶</h6>
-            <div class="d-flex align-items-center justify-content-between">
-              <p class="mb-0"><small>Milk Tea</small></p>
-              <p class="mb-0"><small>NT$ 40</small></p>
+              <p class="mb-0"><small>{{ item.engName }}</small></p>
+              <p class="mb-0"><small>NT$ {{ item.price }}</small></p>
             </div>
           </a>
         </div>
@@ -34,23 +27,23 @@
             </div>
             <div class="mb-3">
               <label for="productNum" class="form-label d-block">冰塊*</label>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" name="iceType" type="radio" id="正常冰">
-                <label class="form-check-label" for="正常冰">正常冰</label>
+              <div class="form-check form-check-inline" v-for="(item, index) in iceType">
+                <input class="form-check-input" name="iceType" type="radio" :id="index">
+                <label class="form-check-label" :for="index">{{ item }}</label>
               </div>
             </div>
             <div class="mb-3">
               <label for="productNum" class="form-label d-block">甜度*</label>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" name="sugarType" type="radio" id="全糖">
-                <label class="form-check-label" for="全糖">全糖</label>
+              <div class="form-check form-check-inline" v-for="(item, index) in sugarType">
+                <input class="form-check-input" name="sugarType" type="radio" :id="index">
+                <label class="form-check-label" :for="index">{{ item }}</label>
               </div>
             </div>
             <div class="mb-3">
               <label for="productNum" class="form-label d-block">加料</label>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="椰果">
-                <label class="form-check-label" for="椰果">椰果</label>
+              <div class="form-check form-check-inline" v-for="(item, index) in toppingsType">
+                <input class="form-check-input" type="checkbox" id="index">
+                <label class="form-check-label" for="index">{{ item }}</label>
               </div>
             </div>
             <div class="mb-3">
