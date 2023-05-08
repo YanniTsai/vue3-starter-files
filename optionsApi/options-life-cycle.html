@@ -17,8 +17,15 @@
   <ul>
     <li>Vue 都是元件，元件的生命週期</li>
     <li>生命週期流程</li>
-    <li>v-if 與 v-show 的差異</li>
+    <!-- v-if完整移除一個元件並重新觸發生命週期；v-show透過畫面上的顯示與否來切換狀態 -->
+    <li>v-if 與 v-show 的差異</li> 
+    <!-- <keep-alive>標籤可直接加在元件最外層，keep-alive中的元件，其v-if的資料狀態不會被重置。 -->
     <li>使用 Keep Alive 維持生命週期</li>
+    <!-- 
+    <keep-alive>
+      <child v-if="isShowing"></child>
+    </keep-alive> 
+    -->
   </ul>
 
 </div>
