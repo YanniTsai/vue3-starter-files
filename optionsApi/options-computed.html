@@ -30,6 +30,7 @@
   <h3>Computed Getter, Setter</h3>
   sum 的值：
   <input type="number" v-model.number="num">
+  <!-- computed中的total尚未新增set()前，total值都僅能讀取，無法寫入。 -->
   <button type="button" @click="total = num">更新</button>
   total 的值：{{ total }}<br>
   sum 的值：{{ sum }}
@@ -68,12 +69,27 @@ const App = {
     }
   },
   computed:{
-    total(){
-      let total = 0;
-      this.carts.forEach(item => {
-        total += item.price
-      });
-      return total;
+    // total(){
+    //   let total = 0;
+    //   this.carts.forEach(item => {
+    //     total += item.price
+    //   });
+    //   return total;
+    // },
+
+    // 將function改為物件形式，並加入get(){}
+    total:{
+      get(){
+        let total = 0;
+        this.carts.forEach(item => {
+          total += item.price
+        });
+        // 若有自定義的金額，則回傳自定義的金額；若無，則回傳購物車總金額。
+        return this.sum || total;
+      },
+      set(value){
+        this.sum = value;
+      }
     },
     filterProducts(){
       return this.products.filter(item =>{
