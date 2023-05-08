@@ -85,7 +85,41 @@ const App = {
   },
   computed: {
     result2() {
-      
+      // computed可同時監聽多個變數(productName、productPrice、productVegan)
+      return `媽媽買了 ${this.productName}，總共花費 ${this.productPrice} 元，另外這 ${this.productVegan? '是' : '不是'} 素食的`
+    }
+  },
+  watch: {
+    // 欲監聽的值就是函式的名稱。函式會帶入兩值：第一個值為新值，第二個值為舊值。
+    tempName(n, o){
+      console.log(n, o);
+      if(n.length >= 10){
+        this.result = `文字長度為 ${n.length} 個字，將儲存至變數中`;
+        this.name = n;
+      }else{
+        this.result = `輸入的文字僅有 ${n.length} 個字，上一次有 ${o.length} 個字`;
+      }
+    },
+
+    // 第一次重新整理的情況下，不會渲染該文字，因為三個值都沒有變動的情況下，不會去觸發事件。
+    productName(){
+      this.result3 = `媽媽買了 ${this.productName}，總共花費 ${this.productPrice} 元，另外這 ${this.productVegan? '是' : '不是'} 素食的`;
+    },
+    productPrice(){
+      this.result3 = `媽媽買了 ${this.productName}，總共花費 ${this.productPrice} 元，另外這 ${this.productVegan? '是' : '不是'} 素食的`;
+    },
+    productVegan(){
+      this.result3 = `媽媽買了 ${this.productName}，總共花費 ${this.productPrice} 元，另外這 ${this.productVegan? '是' : '不是'} 素食的`;
+    },
+
+    // 欲監聽多個物件會改以物件形式，不再使用函式形式。
+    // 會有新＆舊物件：第一個值為新物件，第二個值為舊物件。
+    product: {
+      handler(n, o){
+        console.log(n, o);
+        this.result4 = `媽媽買了 ${this.product.name}，總共花費 ${this.product.price} 元，另外這 ${this.product.vegan? '是' : '不是'} 素食的`;
+      },
+      deep: true,
     }
   },
   // 保留文字：
