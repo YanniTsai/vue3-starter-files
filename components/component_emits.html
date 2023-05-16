@@ -11,14 +11,16 @@
     <li>使用 v-on 的方式觸發外層方法（口訣：前內、後外）</li>
   </ul>
   {{ num }}
+  <!-- 使用v-on來觸發外層方法(v-on: 前面接內層的事件名稱，後面接外層的方法名稱。) -->
+  <!-- html不接收大寫文字，emit-addNum 需改成 emit-add-num -->
   <button-counter
-
+    v-on:emit-add-num="addNum"
   ></button-counter>
 
   <h3>傳遞資料狀態</h3>
-  內部傳來的文字：{{ text }}<br>
+  內部傳來的文字：{{ text_parent }}<br>
   <button-text
-
+    @emit-text="getData"
   ></button-text>
 
   <h3>命名注意</h3>
@@ -35,37 +37,49 @@
     data() {
       return {
         num: 0,
-        text: ''
+        text_parent: ''
       };
     },
     methods: {
-      // addNum() {
-      //   console.log('addNum');
-      //   this.num++
-      // },
-      // getData(text) {
-      //   console.log('getData', text);
-      //   this.text = text;
-      // }
+      // 定義外層元件欲接收內層事件的方法。
+      addNum() {
+        console.log('addNum');
+        this.num++
+      },
+      getData(text) {
+        console.log('getData', text);
+        this.text_parent = text;
+      }
     }
   });
 
   app.component('button-counter', {
     methods: {
-
+      // 定義內層觸發emit的方法。
+      clickToAdd(){
+        console.log('clickToAdd');
+        // ''內的名稱可自訂。
+        this.$emit('emit-addNum');
+      }
     },
-    template: `<button type="button">add</button>`
+    // 使用v-on(@)觸發該事件。
+    template: `<button type="button" @click="clickToAdd">add</button>`
   });
 
   app.component('button-text', {
     data() {
       return {
-        text: '內部資料',
+        text_child: '內部資料',
       }
     },
     methods: {
+      emitText(){
+        console.log('emitText');
+        // 將事件命名(emit-text)，在後面補上欲傳遞至外層的變數(this.text_child)。
+        this.$emit('emit-text', this.text_child);
+      }
     },
-    template: `<button type="button">emit data</button>`
+    template: `<button type="button" @click="emitText">emit data</button>`
   });
 
   app.component('button-named', {
